@@ -47,7 +47,7 @@ public class TabGrabber implements ClientModInitializer {
                 ScoreboardObjective scoreboardObjective = scoreboard.getObjectiveForSlot(ScoreboardDisplaySlot.LIST);
                 ModConfig config = ConfigManager.getConfig();
 
-                if (!client.isInSingleplayer() || client.player.networkHandler.getListedPlayerListEntries().size() > 1 || scoreboardObjective != null) {
+                if (!client.isInSingleplayer()) {
                     isValidScene = true;
                     tabManager.setScoreboard(scoreboard);
                     tabManager.setObjective(scoreboardObjective);
