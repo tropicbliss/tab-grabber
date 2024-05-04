@@ -1,0 +1,36 @@
+{
+	"schemaVersion": 1,
+	"id": "tab-grabber",
+	"version": "${version}",
+	"name": "Tab Grabber",
+	"description": "Grabs text from the tab menu and puts it on your screen!",
+	"authors": [
+		"tropicbliss"
+	],
+	"contact": {
+		"homepage": "https://tropicbliss.net/",
+		"sources": "https://github.com/tropicbliss/tab-grabber"
+	},
+	"license": "MIT",
+	"icon": "assets/tab-grabber/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"net.tropicbliss.tabgrabber.TabGrabber"
+		],
+		"modmenu": [
+			"net.tropicbliss.tabgrabber.ModMenuEntrypoint"
+		]
+	},
+	"mixins": [
+		"tab-grabber.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.15.9",
+		"minecraft": "~1.20.4",
+		"java": ">=17",
+		"fabric-api": "*",
+		"cloth-config2": "*"
+	},
+	"suggests": {}
+}
