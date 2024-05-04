@@ -17,7 +17,7 @@ public class DebugCommand {
                 if (debugInfo.isPresent()) {
                     String debugText = debugInfo.get();
                     if (debugText.isEmpty()) {
-                        ctx.getSource().sendFeedback(Text.translatable("text.tabgrabber.no_tab_info"));
+                        ctx.getSource().sendFeedback(Text.translatable("text.tabgrabber.no_tab_info").formatted(Formatting.RED));
                     } else {
                         String sDebugInfo = debugInfo.get();
                         ctx.getSource().sendFeedback(Text.literal(sDebugInfo));
