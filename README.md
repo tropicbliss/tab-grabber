@@ -10,6 +10,7 @@ This allows the user to not have to constantly press the tab key on servers if t
 
 - [Fabric API](https://modrinth.com/mod/fabric-api)
 - [Cloth Config](https://modrinth.com/mod/cloth-config)
+- [Mod Menu](https://modrinth.com/mod/modmenu)
 
 ## Usage
 This mod uses a custom format based on [regular expressions](https://en.wikipedia.org/wiki/Regular_expression) to show useful information on screen.
@@ -36,8 +37,7 @@ If a line in your formatter fails to match anything on your tab, it will silentl
 This can be exploited by the user if the server shows similar tab info on different minigames for example.
 
 ### Config options
-You can enter the config screen by going to the pause menu.
-The config button should be at the top left side of the screen.
+Enter the config screen via the mod menu.
 
 - Enable/disable HUD (you can also toggle this via a keybind)
 - HUD position (in percentage)
