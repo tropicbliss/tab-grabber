@@ -39,6 +39,8 @@ public class TabGrabber implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             enableHudRender = false;
             isValidScene = false;
+            tabManager.setScoreboard(null);
+            tabManager.setObjective(null);
 
             if (client.player != null && client.world != null) {
                 Scoreboard scoreboard = client.world.getScoreboard();
