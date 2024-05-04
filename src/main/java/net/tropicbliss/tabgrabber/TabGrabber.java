@@ -51,9 +51,8 @@ public class TabGrabber implements ClientModInitializer {
                     isValidScene = true;
                     tabManager.setScoreboard(scoreboard);
                     tabManager.setObjective(scoreboardObjective);
-                    if (config.enable) {
+                    if (config.enable)
                         enableHudRender = true;
-                    }
                 }
             }
         });
