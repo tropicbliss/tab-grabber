@@ -3,13 +3,20 @@ package net.tropicbliss.tabgrabber.matcher;
 import net.tropicbliss.tabgrabber.utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+sealed interface Segment extends RawSegment permits Regex, Str {
+}
+
+sealed interface RawSegment permits Segment, NewLine {
+}
+
 public class Formatter {
-    private final ArrayList<ArrayList<Segment>> segments = new ArrayList<>();
+    private final List<ArrayList<Segment>> segments = new ArrayList<>();
 
     private Formatter(String formatting) throws PatternSyntaxException {
         Stack<RawSegment> segmentsWithNewlines = new Stack<>();
@@ -54,7 +61,8 @@ public class Formatter {
 
     public String format(String raw) {
         StringBuilder result = new StringBuilder();
-        outer: for (ArrayList<Segment> line : segments) {
+        outer:
+        for (ArrayList<Segment> line : segments) {
             StringBuilder resultLine = new StringBuilder();
             for (Segment segment : line) {
                 if (segment instanceof Str seg) {
@@ -80,10 +88,6 @@ public class Formatter {
     }
 }
 
-sealed interface Segment extends RawSegment permits Regex, Str { }
-
-sealed interface RawSegment permits Segment, NewLine { }
-
 final class Regex implements Segment {
     public final Pattern inner;
 
@@ -92,6 +96,8 @@ final class Regex implements Segment {
     }
 }
 
-record Str(String inner) implements Segment { }
+record Str(String inner) implements Segment {
+}
 
-final class NewLine implements RawSegment { }
+final class NewLine implements RawSegment {
+}

@@ -7,7 +7,7 @@ import net.tropicbliss.tabgrabber.TabGrabber;
 import net.tropicbliss.tabgrabber.config.ConfigManager;
 import net.tropicbliss.tabgrabber.config.ModConfig;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class HudManager {
     private static final int LINE_HEIGHT = 10;
@@ -18,7 +18,7 @@ public class HudManager {
 
         HudRenderCallback.EVENT.register((ctx, tickDelta) -> {
             if (TabGrabber.enableHudRender) {
-                ArrayList<String> lines = TabGrabber.tabManager.getHudInfo();
+                List<String> lines = TabGrabber.tabManager.getHudInfo();
                 MatrixStack matrixStack = ctx.getMatrices();
                 matrixStack.push();
                 matrixStack.translate(5, 5, 0);

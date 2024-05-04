@@ -17,7 +17,7 @@ public class KeyInputHandler {
                     new KeyBinding(KEY_TOGGLE_GUI, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_O, KeyBinding.UI_CATEGORY)
             );
 
-    public static void registerKeyInputs() {
+    public static void register() {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
             if (toggleGuiKey.wasPressed()) {
                 ConfigManager.toggleGuiOption();

@@ -9,11 +9,11 @@ import net.tropicbliss.tabgrabber.command.DebugCommand;
 import net.tropicbliss.tabgrabber.command.HelpCommand;
 import net.tropicbliss.tabgrabber.config.ConfigManager;
 import net.tropicbliss.tabgrabber.config.ModConfig;
-import net.tropicbliss.tabgrabber.keybind.KeyInputHandler;
+import net.tropicbliss.tabgrabber.grabber.PlayerTabManager;
 import net.tropicbliss.tabgrabber.hud.HudManager;
+import net.tropicbliss.tabgrabber.keybind.KeyInputHandler;
 import net.tropicbliss.tabgrabber.listeners.ServerJoinEvent;
 import net.tropicbliss.tabgrabber.listeners.ServerLeaveEvent;
-import net.tropicbliss.tabgrabber.grabber.PlayerTabManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,7 +28,7 @@ public class TabGrabber implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        KeyInputHandler.registerKeyInputs();
+        KeyInputHandler.register();
         ConfigManager.register();
         DebugCommand.register();
         HelpCommand.register();

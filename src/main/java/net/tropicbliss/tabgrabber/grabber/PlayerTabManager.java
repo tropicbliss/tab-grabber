@@ -17,11 +17,16 @@ import java.util.*;
 import java.util.regex.PatternSyntaxException;
 
 public class PlayerTabManager {
+    private final MinecraftClient client = MinecraftClient.getInstance();
     private Scoreboard scoreboard;
     private ScoreboardObjective objective;
-    private final MinecraftClient client = MinecraftClient.getInstance();
-
     private Formatter formatter;
+
+    private static String removeStyling(Text styledText) {
+        String unstyledText = styledText.getString();
+        String unformattedText = unstyledText.replaceAll("§[0-9a-fklmnor]", "");
+        return unformattedText.strip();
+    }
 
     public void setScoreboard(Scoreboard scoreboard) {
         this.scoreboard = scoreboard;
@@ -43,7 +48,7 @@ public class PlayerTabManager {
         return ((PlayerListHudMixin) client.inGameHud.getPlayerListHud()).getFooter();
     }
 
-    private LinkedHashMap<ScoreboardKey, String> getScoreboardKeyPairs() {
+    private Map<ScoreboardKey, String> getScoreboardKeyPairs() {
         LinkedHashMap<ScoreboardKey, String> result = new LinkedHashMap<>();
         if (scoreboard != null) {
             List<PlayerListEntry> players = collectPlayerEntries();
@@ -93,7 +98,7 @@ public class PlayerTabManager {
 
     public Optional<String> getDebugInfo() {
         if (TabGrabber.isValidScene && !client.isInSingleplayer()) {
-            HashMap<ScoreboardKey, String> scoreboardInfo = getScoreboardKeyPairs();
+            Map<ScoreboardKey, String> scoreboardInfo = getScoreboardKeyPairs();
             StringBuilder result = new StringBuilder();
             for (Map.Entry<ScoreboardKey, String> entry : scoreboardInfo.entrySet()) {
                 result.append(entry.getKey().getString());
@@ -107,13 +112,7 @@ public class PlayerTabManager {
         return Optional.empty();
     }
 
-    private static String removeStyling(Text styledText) {
-        String unstyledText = styledText.getString();
-        String unformattedText = unstyledText.replaceAll("§[0-9a-fklmnor]", "");
-        return unformattedText.strip();
-    }
-
-    public ArrayList<String> getHudInfo() {
+    public List<String> getHudInfo() {
         ArrayList<String> result = new ArrayList<>();
         if (formatter == null || !TabGrabber.enableHudRender) {
             return result;
