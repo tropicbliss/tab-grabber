@@ -97,7 +97,7 @@ public class PlayerTabManager {
     }
 
     public Optional<String> getDebugInfo() {
-        if (TabGrabber.isValidScene && !client.isInSingleplayer()) {
+        if (TabGrabber.isValidScene) {
             Map<ScoreboardKey, String> scoreboardInfo = getScoreboardKeyPairs();
             StringBuilder result = new StringBuilder();
             for (Map.Entry<ScoreboardKey, String> entry : scoreboardInfo.entrySet()) {
