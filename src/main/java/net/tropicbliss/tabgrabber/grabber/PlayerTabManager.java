@@ -22,12 +22,6 @@ public class PlayerTabManager {
     private ScoreboardObjective objective;
     private Formatter formatter;
 
-    private static String removeStyling(Text styledText) {
-        String unstyledText = styledText.getString();
-        String unformattedText = unstyledText.replaceAll("§[0-9a-fklmnor]", "");
-        return unformattedText.strip();
-    }
-
     public void setScoreboard(Scoreboard scoreboard) {
         this.scoreboard = scoreboard;
     }
@@ -53,7 +47,7 @@ public class PlayerTabManager {
         if (scoreboard != null) {
             List<PlayerListEntry> players = collectPlayerEntries();
             for (PlayerListEntry player : players) {
-                String playerName = removeStyling(client.inGameHud.getPlayerListHud().getPlayerName(player));
+                String playerName = StringUtils.removeStyling(client.inGameHud.getPlayerListHud().getPlayerName(player));
                 String formattedScore = null;
                 if (objective != null) {
                     ScoreHolder scoreHolder = ScoreHolder.fromProfile(player.getProfile());
@@ -61,7 +55,7 @@ public class PlayerTabManager {
                     if (readableScoreboardScore != null) {
                         if (objective.getRenderType() != ScoreboardCriterion.RenderType.HEARTS) {
                             NumberFormat numberFormat = objective.getNumberFormatOr(StyledNumberFormat.YELLOW);
-                            formattedScore = removeStyling(ReadableScoreboardScore.getFormattedScore(readableScoreboardScore, numberFormat));
+                            formattedScore = StringUtils.removeStyling(ReadableScoreboardScore.getFormattedScore(readableScoreboardScore, numberFormat));
                         } else {
                             formattedScore = String.valueOf(readableScoreboardScore.getScore());
                         }
@@ -72,11 +66,11 @@ public class PlayerTabManager {
         }
         Text header = getHeader();
         if (header != null) {
-            result.put(new Metadata("Header"), removeStyling(header));
+            result.put(new Metadata("Header"), StringUtils.removeStyling(header));
         }
         Text footer = getFooter();
         if (footer != null) {
-            result.put(new Metadata("Footer"), removeStyling(footer));
+            result.put(new Metadata("Footer"), StringUtils.removeStyling(footer));
         }
         return result;
     }
