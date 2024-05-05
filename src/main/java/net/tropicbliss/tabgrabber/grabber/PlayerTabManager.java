@@ -83,13 +83,17 @@ public class PlayerTabManager {
 
     public void onServerJoin(String domain) {
         try {
-            formatter = ConfigManager.getConfig().serverConfigs.stream().filter(config -> config.domain.equals(domain)).findFirst().map(config -> Formatter.compile(config.format)).orElse(null);
+            setFormatter(ConfigManager.getConfig().serverConfigs.stream().filter(config -> config.domain.equals(domain)).findFirst().map(config -> Formatter.compile(config.format)).orElse(null));
         } catch (PatternSyntaxException e) {
             if (client.player != null) {
                 Text text = Text.translatable("text.tabgrabber.invalid_regex").formatted(Formatting.RED);
                 client.player.sendMessage(text);
             }
         }
+    }
+
+    public void setFormatter(Formatter formatter) {
+        this.formatter = formatter;
     }
 
     public void onServerLeave() {
