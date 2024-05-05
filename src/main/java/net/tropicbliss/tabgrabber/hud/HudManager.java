@@ -31,10 +31,10 @@ public class HudManager {
                     int y = coordinates.y();
                     for (String line : lines) {
                         HudUtils.LineUtils lineUtils = utils.getLineUtilsInstance(line);
-                        if (config.textBackground) {
-                            ctx.fill(x - 1, y - 1, x + lineUtils.getLineLength(), y + LINE_HEIGHT - 1, 0x80000000);
-                        }
                         int offset = lineUtils.getTextAlignmentOffset();
+                        if (config.textBackground) {
+                            ctx.fill(x - 1 + offset, y - 1, x + lineUtils.getLineLength() + offset, y + LINE_HEIGHT - 1, 0x80000000);
+                        }
                         ctx.drawText(instance.textRenderer, line, x + offset, y, config.textColor, config.textShadow);
                         y += LINE_HEIGHT;
                     }

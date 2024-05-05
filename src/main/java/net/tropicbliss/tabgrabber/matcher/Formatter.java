@@ -21,11 +21,12 @@ public class Formatter {
     private Formatter(String formatting) throws PatternSyntaxException {
         Stack<RawSegment> segmentsWithNewlines = new Stack<>();
         String[] rawSegments = formatting.split("(?<=})|(?=\\{)");
+        Pattern NEWLINE_PATTERN = Pattern.compile("\\\\n");
         for (String segment : rawSegments) {
             if (segment.startsWith("{") && segment.endsWith("}")) {
                 segmentsWithNewlines.add(new Regex(segment.substring(1, segment.length() - 1)));
             } else {
-                String[] lineSegments = segment.split("\n");
+                String[] lineSegments = NEWLINE_PATTERN.split(segment);
                 if (lineSegments.length == 1) {
                     segmentsWithNewlines.add(new Str(lineSegments[0]));
                 } else {

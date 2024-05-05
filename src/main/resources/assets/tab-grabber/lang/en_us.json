@@ -6,7 +6,7 @@
   "text.autoconfig.tab-grabber.option.y": "Y coordinate",
   "text.autoconfig.tab-grabber.option.serverConfigs": "Server configs",
   "text.autoconfig.tab-grabber.option.ServerConfig": "Servers",
-  "text.autoconfig.tab-grabber.option.ServerConfig.domain": "Domain",
+  "text.autoconfig.tab-grabber.option.ServerConfig.domain": "Server IP",
   "text.autoconfig.tab-grabber.option.ServerConfig.format": "Formatter",
   "text.autoconfig.tab-grabber.option.ServerConfig.format.@PrefixText": "Run /tabgrabberhelp for documentation on how to format text shown on the HUD.",
   "text.autoconfig.tab-grabber.option.textColor": "Text color",
@@ -20,5 +20,6 @@
   "text.tabgrabber.no_tab_info": "There doesn't seem to be any tab info to grab",
   "text.tabgrabber.invalid_scene": "There is no tab info in the current scene",
   "text.tabgrabber.doc_link_msg": "Click to view documentation",
-  "text.tabgrabber.debug_clipboard": "Click to copy debug text"
+  "text.tabgrabber.debug_clipboard": "Copy debug text to clipboard",
+  "text.tabgrabber.click_here_to_copy": "Click here to copy"
 }
