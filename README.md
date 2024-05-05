@@ -71,6 +71,7 @@ Enter the config screen via the mod menu.
 - Text alignment
 - Text shadow
 - Server configuration
+- 
 
 #### Server configuration
 
@@ -79,6 +80,8 @@ should show any HUD info.
 If the server is mentioned in the server configuration section of the config, it will use its respective formatter to
 parse the tab menu.
 This allows for the user to conditionally apply different parsing/formatting rules to different servers.
+
+![screenshot of server config](assets/config.png)
 
 ### Debugging
 
