@@ -1,6 +1,8 @@
 package net.tropicbliss.tabgrabber.matcher;
 
 import net.tropicbliss.tabgrabber.utils.StringUtils;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,7 @@ sealed interface RawSegment permits Segment, NewLine {
 public class Formatter {
     private final List<ArrayList<Segment>> segments = new ArrayList<>();
 
-    private Formatter(String formatting) throws PatternSyntaxException {
+    private Formatter(@NotNull String formatting) throws PatternSyntaxException {
         Stack<RawSegment> segmentsWithNewlines = new Stack<>();
         String[] rawSegments = formatting.split("(?<=})|(?=\\{)");
         for (String segment : rawSegments) {
@@ -55,7 +57,8 @@ public class Formatter {
         }
     }
 
-    public static Formatter compile(String formatting) throws PatternSyntaxException {
+    @Contract("_ -> new")
+    public static @NotNull Formatter compile(String formatting) throws PatternSyntaxException {
         return new Formatter(formatting);
     }
 
