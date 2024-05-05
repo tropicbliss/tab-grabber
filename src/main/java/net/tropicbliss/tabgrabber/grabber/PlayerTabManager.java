@@ -85,6 +85,7 @@ public class PlayerTabManager {
         try {
             formatter = ConfigManager.getConfig().serverConfigs.stream().filter(config -> config.domain.equals(domain)).findFirst().map(config -> Formatter.compile(config.format)).orElse(null);
         } catch (PatternSyntaxException e) {
+            TabGrabber.LOGGER.warn("Invalid regex provided by the user");
             if (client.player != null) {
                 Text text = Text.translatable("text.tabgrabber.invalid_regex").formatted(Formatting.RED);
                 client.player.sendMessage(text);
