@@ -8,7 +8,7 @@ import net.tropicbliss.tabgrabber.config.ModConfig;
 
 import java.util.List;
 
-public class HudUtils {
+class HudUtils {
     private static final MinecraftClient client = MinecraftClient.getInstance();
     private static final TextRenderer textRenderer = client.textRenderer;
     private static final Window window = client.getWindow();
@@ -66,7 +66,7 @@ public class HudUtils {
         return this.new LineUtils(line);
     }
 
-    public class LineUtils {
+    class LineUtils {
         private final int lineLength;
 
         private LineUtils(String line) {
