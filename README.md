@@ -112,10 +112,33 @@ That's all you need to do!
 If you are curious as to what the formatter is matching, here you go:
 
 ```dtd
-ghi: jkl
-mno: pqr
-Header: stu
-Footer: vwx
+Dobby728: null
+kittycatelite: null
+lendtils: null
+ambero: null
+BreadEaterPeter: null
+DeBoeman123: null
+Lennerd07: null
+MelioraHoney1: null
+msaadm: null
+natcrackers: null
+Tupajus: null
+alphadzeta: null
+Coffee1207: null
+Den15_: null
+Jabe_Jabe: null
+lackyz: null
+Maskyzee: null
+Nytr0gen: null
+Zyr: null
+Donphan: null
+Kanihem: null
+mizuriny: null
+SkanoobYT: null
+tposed: null
+Ukit0: null
+Header: zero.minr.org
+Footer: Bussolai: 00:04
 ```
 
 ## Why does the mod icon look so unnatural?
