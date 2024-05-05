@@ -19,25 +19,27 @@ public class HudManager {
         HudRenderCallback.EVENT.register((ctx, tickDelta) -> {
             if (TabGrabber.enableHudRender) {
                 List<String> lines = TabGrabber.tabManager.getHudInfo();
-                MatrixStack matrixStack = ctx.getMatrices();
-                matrixStack.push();
-                matrixStack.translate(5, 5, 0);
-                matrixStack.scale(1, 1, 1);
-                matrixStack.translate(-5, -5, 0);
-                HudUtils utils = new HudUtils(lines);
-                Coordinates coordinates = utils.getCoordinates();
-                int x = coordinates.x();
-                int y = coordinates.y();
-                for (String line : lines) {
-                    HudUtils.LineUtils lineUtils = utils.getLineUtilsInstance(line);
-                    if (config.textBackground) {
-                        ctx.fill(x - 1, y - 1, x + lineUtils.getLineLength(), y + LINE_HEIGHT - 1, 0x80000000);
+                if (!lines.isEmpty()) {
+                    MatrixStack matrixStack = ctx.getMatrices();
+                    matrixStack.push();
+                    matrixStack.translate(5, 5, 0);
+                    matrixStack.scale(1, 1, 1);
+                    matrixStack.translate(-5, -5, 0);
+                    HudUtils utils = new HudUtils(lines);
+                    Coordinates coordinates = utils.getCoordinates();
+                    int x = coordinates.x();
+                    int y = coordinates.y();
+                    for (String line : lines) {
+                        HudUtils.LineUtils lineUtils = utils.getLineUtilsInstance(line);
+                        if (config.textBackground) {
+                            ctx.fill(x - 1, y - 1, x + lineUtils.getLineLength(), y + LINE_HEIGHT - 1, 0x80000000);
+                        }
+                        int offset = lineUtils.getTextAlignmentOffset();
+                        ctx.drawText(instance.textRenderer, line, x + offset, y, config.textColor, config.textShadow);
+                        y += LINE_HEIGHT;
                     }
-                    int offset = lineUtils.getTextAlignmentOffset();
-                    ctx.drawText(instance.textRenderer, line, x + offset, y, config.textColor, config.textShadow);
-                    y += LINE_HEIGHT;
+                    matrixStack.pop();
                 }
-                matrixStack.pop();
             }
         });
     }
