@@ -9,7 +9,8 @@
   ],
   "contact": {
     "homepage": "https://tropicbliss.net/",
-    "sources": "https://github.com/tropicbliss/tab-grabber"
+    "sources": "https://github.com/tropicbliss/tab-grabber",
+    "issues": "https://github.com/tropicbliss/tab-grabber/issues"
   },
   "license": "MIT",
   "icon": "assets/tab-grabber/icon.png",
@@ -27,7 +28,7 @@
   ],
   "depends": {
     "fabricloader": ">=0.15.9",
-    "minecraft": "~1.20.4",
+    "minecraft": ">=1.20.4",
     "java": ">=17",
     "fabric-api": "*",
     "cloth-config2": "*",
