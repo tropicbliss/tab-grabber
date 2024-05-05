@@ -10,6 +10,8 @@ that particular use case.
 
 ![screenshot of minecraft showing how the info in the tab menu maps to the HUD](assets/screenshot.png)
 
+[Download link](https://modrinth.com/mod/tab-grabber)
+
 ## Requirements
 
 - Minecraft 1.20.4
