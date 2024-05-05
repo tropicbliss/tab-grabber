@@ -23,6 +23,16 @@ that particular use case.
 This mod uses a custom format based on [regular expressions](https://en.wikipedia.org/wiki/Regular_expression) to show
 useful information on screen.
 
+If you try typing text on the formatter, it will be shown in the HUD as is.
+
+Example:
+A formatter of `abcdef` will show `abcdef` on screen.
+
+The power of this mod comes from its ability to capture information on the tab menu.
+To do that, surround a regex with curly braces.
+For example, if you want to match a timer on the tab menu like `23:01`, and you want it to show `Timer: 23:01` on the HUD, use `Timer: {\d+:\d+}` as the formatter.
+It's that straightforward!
+
 Since this is a Java mod, the regex used must be compatible with the stock regex parser that comes with Java.
 
 To omit unneeded information, capture groups are used to capture only certain parts of the tab menu.
@@ -92,10 +102,10 @@ This is particularly useful if the server uses any esoteric symbols or a resourc
 
 ### Example
 
-The server `abc` is notorious for not showing its timers in parkour courses.
+The server [Minr](https://forums.minr.org/) is notorious for not showing its timers in parkour courses.
 This is what you can do to show the timer on your screen:
 
-1. In the config screen, set `abc` as the domain and `def` as the formatter.
+1. In the config screen, set `zero.minr.org` as the domain and `{\d+:\d+}` as the formatter.
 
 That's all you need to do!
 
@@ -107,3 +117,7 @@ mno: pqr
 Header: stu
 Footer: vwx
 ```
+
+## Why does the mod icon look so unnatural?
+The mod icon is currently not created by a human.
+I'm a little lazy, but I have plans to replace it with my own creation despite my shitty pixel art skills, or commission someone else to do it.
