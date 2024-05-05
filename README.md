@@ -140,3 +140,7 @@ Ukit0: null
 Header: zero.minr.org
 Footer: Bussolai: 00:04
 ```
+
+## Why does the mod icon look so unnatural?
+The mod icon is currently not created by a human.
+I'm a little lazy, but I have plans to replace it with my own creation despite my shitty pixel art skills, or commission someone else to do it.
