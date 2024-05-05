@@ -8,7 +8,7 @@ shown on the tab menu.
 **_NOTE:_** Even though scoreboards are also available on single player, for simplicity’s sake this mod will not support
 that particular use case.
 
-![alt text](assets/screenshot.png)
+![screenshot of minecraft showing how the info in the tab menu maps to the HUD](assets/screenshot.png)
 
 ## Requirements
 
