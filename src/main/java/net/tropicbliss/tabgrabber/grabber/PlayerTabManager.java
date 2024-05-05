@@ -81,9 +81,9 @@ public class PlayerTabManager {
         return result;
     }
 
-    public void onServerJoin(String domain) {
+    public void updateFormatter(String domain) {
         try {
-            setFormatter(ConfigManager.getConfig().serverConfigs.stream().filter(config -> config.domain.equals(domain)).findFirst().map(config -> Formatter.compile(config.format)).orElse(null));
+            formatter = ConfigManager.getConfig().serverConfigs.stream().filter(config -> config.domain.equals(domain)).findFirst().map(config -> Formatter.compile(config.format)).orElse(null);
         } catch (PatternSyntaxException e) {
             if (client.player != null) {
                 Text text = Text.translatable("text.tabgrabber.invalid_regex").formatted(Formatting.RED);
@@ -92,11 +92,7 @@ public class PlayerTabManager {
         }
     }
 
-    public void setFormatter(Formatter formatter) {
-        this.formatter = formatter;
-    }
-
-    public void onServerLeave() {
+    public void clearFormatter() {
         formatter = null;
     }
 

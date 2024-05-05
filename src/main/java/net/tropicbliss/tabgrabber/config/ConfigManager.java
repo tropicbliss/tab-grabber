@@ -2,11 +2,21 @@ package net.tropicbliss.tabgrabber.config;
 
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.util.ActionResult;
+import net.tropicbliss.tabgrabber.TabGrabber;
 
 public class ConfigManager {
     public static void register() {
         AutoConfig.register(ModConfig.class, Toml4jConfigSerializer::new);
+        AutoConfig.getConfigHolder(ModConfig.class).registerSaveListener((modConfigConfigHolder, config) -> {
+            MinecraftClient client = MinecraftClient.getInstance();
+            if (client.getCurrentServerEntry() != null) {
+                TabGrabber.tabManager.updateFormatter(client.getCurrentServerEntry().address);
+            }
+            return ActionResult.PASS;
+        });
     }
 
     public static ModConfig getConfig() {
