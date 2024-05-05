@@ -7,4 +7,8 @@ public class StringUtils {
             sb.deleteCharAt(length - 1);
         }
     }
+
+    public static String convertLiteralsToNewlines(String input) {
+        return input.replace("\\n", "\n");
+    }
 }

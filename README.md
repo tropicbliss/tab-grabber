@@ -8,6 +8,8 @@ shown on the tab menu.
 **_NOTE:_** Even though scoreboards are also available on single player, for simplicity’s sake this mod will not support
 that particular use case.
 
+![alt text](assets/screenshot.png)
+
 ## Requirements
 
 - [Fabric API](https://modrinth.com/mod/fabric-api)

@@ -19,15 +19,16 @@ public class Formatter {
     private final List<ArrayList<Segment>> segments = new ArrayList<>();
 
     private Formatter(String formatting) throws PatternSyntaxException {
+        formatting = StringUtils.convertLiteralsToNewlines(formatting);
         Stack<RawSegment> segmentsWithNewlines = new Stack<>();
         String[] rawSegments = formatting.split("(?<=})|(?=\\{)");
-        Pattern NEWLINE_PATTERN = Pattern.compile("\\\\n");
+        Pattern NEWLINE_PATTERN = Pattern.compile("\n");
         for (String segment : rawSegments) {
             if (segment.startsWith("{") && segment.endsWith("}")) {
                 segmentsWithNewlines.add(new Regex(segment.substring(1, segment.length() - 1)));
             } else {
                 String[] lineSegments = NEWLINE_PATTERN.split(segment);
-                if (lineSegments.length == 1) {
+                if (lineSegments.length == 1 && !segment.endsWith("\n")) {
                     segmentsWithNewlines.add(new Str(lineSegments[0]));
                 } else {
                     for (String lineSegment : lineSegments) {

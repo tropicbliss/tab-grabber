@@ -32,7 +32,7 @@ public class HudManager {
                     for (String line : lines) {
                         HudUtils.LineUtils lineUtils = utils.getLineUtilsInstance(line);
                         int offset = lineUtils.getTextAlignmentOffset();
-                        if (config.textBackground) {
+                        if (config.textBackground && !line.isEmpty()) {
                             ctx.fill(x - 1 + offset, y - 1, x + lineUtils.getLineLength() + offset, y + LINE_HEIGHT - 1, 0x80000000);
                         }
                         ctx.drawText(instance.textRenderer, line, x + offset, y, config.textColor, config.textShadow);
