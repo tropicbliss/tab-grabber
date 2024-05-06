@@ -24,7 +24,7 @@ public class DebugCommand {
                     String sDebugInfo = debugInfo.get();
                     ctx.getSource().sendFeedback(Text.literal(sDebugInfo));
                     ctx.getSource().sendFeedback(Text.literal("\n"));
-                    MinecraftClient client = MinecraftClient.getInstance();
+                    MinecraftClient client = ctx.getSource().getClient();
                     if (client.getCurrentServerEntry() != null) {
                         String serverIp = client.getCurrentServerEntry().address;
                         Text serverIpDebug = Text.translatable("text.autoconfig.tab-grabber.option.ServerConfig.domain").append(Text.literal(": " + serverIp));
