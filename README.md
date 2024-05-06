@@ -97,6 +97,8 @@ This will be in the format `key: value` separated by newlines.
 The keys `Header` and `Footer` are specially reserved for showing header and footer information.
 They will always appear below the scoreboard info in order.
 
+![using the debug command](assets/debug.png)
+
 If there are no objectives, you might see the following when you run this command:
 
 ```dtd
@@ -117,6 +119,8 @@ This is what you can do to show the timer on your screen without constantly pres
 1. In the config screen, set `zero.minr.org` as the domain and `{\d+:\d+}` as the formatter.
 
 That's all you need to do!
+
+![zerominr screenshot](assets/zerominr.png)
 
 If you are curious as to what the formatter is matching, here you go:
 
