@@ -113,7 +113,7 @@ This is particularly useful if the server uses any esoteric symbols or a resourc
 
 ### Example
 
-The server [Minr](https://forums.minr.org/) is notorious for only showing its timers on the tab menu in parkour courses.
+The server [ZeroMinr](https://forums.minr.org/) is notorious for only showing its timers on the tab menu in parkour courses.
 This is what you can do to show the timer on your screen without constantly pressing TAB:
 
 1. In the config screen, set `zero.minr.org` as the domain and `{\d+:\d+}` as the formatter.
