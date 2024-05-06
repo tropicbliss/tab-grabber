@@ -20,6 +20,28 @@ that particular use case.
 - [Cloth Config](https://modrinth.com/mod/cloth-config)
 - [Mod Menu](https://modrinth.com/mod/modmenu)
 
+## Example
+
+The server [ZeroMinr](https://forums.minr.org/) is notorious for only showing its timers on the tab menu in parkour courses.
+This is what you can do to show the timer on your screen without constantly pressing TAB:
+
+1. In the config screen, set `zero.minr.org` as the domain and `{\d+:\d+}` as the formatter.
+
+That's all you need to do!
+
+![zerominr screenshot](assets/zerominr.png)
+
+If you need an example as to what the formatter is matching, here you go:
+
+```dtd
+Player1: null
+Player2: null
+Player3: null
+Donphan: null
+Header: zero.minr.org
+Footer: Bussolai: 00:04
+```
+
 ## Usage
 
 This mod uses a custom format based on [regular expressions](https://en.wikipedia.org/wiki/Regular_expression) to show
@@ -110,25 +132,3 @@ This is normal, and you can ignore that if you don't particularly care about the
 
 There will also be an action you can click on below the debug info to copy it to your clipboard.
 This is particularly useful if the server uses any esoteric symbols or a resource pack to style the tab menu.
-
-### Example
-
-The server [ZeroMinr](https://forums.minr.org/) is notorious for only showing its timers on the tab menu in parkour courses.
-This is what you can do to show the timer on your screen without constantly pressing TAB:
-
-1. In the config screen, set `zero.minr.org` as the domain and `{\d+:\d+}` as the formatter.
-
-That's all you need to do!
-
-![zerominr screenshot](assets/zerominr.png)
-
-If you are curious as to what the formatter is matching, here you go:
-
-```dtd
-Player1: null
-Player2: null
-Player3: null
-Donphan: null
-Header: zero.minr.org
-Footer: Bussolai: 00:04
-```
