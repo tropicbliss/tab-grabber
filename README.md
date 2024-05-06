@@ -32,7 +32,7 @@ That's all you need to do!
 ![zerominr screenshot](assets/zerominr.png)
 
 If you need an example as to what the formatter is matching, run `/tabgrabberdebug`.
-This is what it should approximately show:
+This is what it should approximately show (redacted to hide all player names except mine):
 
 ```dtd
 Player1: null
