@@ -65,6 +65,8 @@ To omit unneeded information, capture groups are used to capture only certain pa
 It will use the first capture group in your regex, or match the entire raw tab info if there is a match but there are no
 capture groups.
 
+To escape curly braces, put a backslash (`\`) before it.
+
 **_NOTE:_**: Try and avoid overcomplicated regexes with backtracking or the use of too many of them at once.
 The regexes provided for a server matches tab menu information on every tick, so it may slow down client-side FPS significantly if the regexes provided are not particularly well optimized.
 To avoid any further strain on your PC, this mod tries to avoid compiling regexes unless absolutely necessary, and caches them if the regexes provided does not change.
