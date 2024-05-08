@@ -1,5 +1,7 @@
 package net.tropicbliss.tabgrabber.matcher;
 
+import net.tropicbliss.tabgrabber.TabGrabber;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -8,7 +10,6 @@ import java.util.regex.PatternSyntaxException;
 
 class Tokenizer {
     private static final Pattern BRACE_PAIR = Pattern.compile("(?<!\\\\)\\{[^}]*(?<!\\\\)}");
-    private static final Pattern OTHER_FAKE_ESCAPES = Pattern.compile("\\t|\\r|\\f|\\b|\"|'|\\\\");
 
     public static List<List<Token>> tokenize(String input) throws PatternSyntaxException {
         String canonicalInput = escapeSequenceReplacement(input);
@@ -17,14 +18,14 @@ class Tokenizer {
         result.add(new ArrayList<>());
         for (String rawSegment : rawSegments) {
             if (rawSegment.startsWith("{") && rawSegment.endsWith("}")) {
-                result.getLast().add(new Regex(rawSegment.substring(1, rawSegment.length() - 1)));
+                result.get(result.size() - 1).add(new Regex(rawSegment.substring(1, rawSegment.length() - 1)));
             } else {
                 rawSegment = rawSegment.replace("\\{", "{");
                 rawSegment = rawSegment.replace("\\}", "}");
                 List<InternalToken> lineSegments = delineateNewlines(rawSegment);
                 for (InternalToken token : lineSegments) {
                     if (token instanceof Plaintext plaintext) {
-                        result.getLast().add(plaintext);
+                        result.get(result.size() - 1).add(plaintext);
                     } else {
                         result.add(new ArrayList<>());
                     }
@@ -57,23 +58,29 @@ class Tokenizer {
     private static List<String> splitWithDelimiters(String input) {
         List<String> result = new ArrayList<>();
         Matcher matcher = BRACE_PAIR.matcher(input);
-        int lastEnd = 0;
+        int start = 0;
         while (matcher.find()) {
-            if (matcher.start() > lastEnd) {
-                result.add(input.substring(lastEnd, matcher.start()));
+            if (start != matcher.start()) {
+                result.add(input.substring(start, matcher.start()));
             }
             result.add(matcher.group());
-            lastEnd = matcher.end();
+            start = matcher.end();
         }
-        if (lastEnd < input.length()) {
-            result.add(input.substring(lastEnd));
+        if (start < input.length()) {
+            result.add(input.substring(start));
         }
         return result;
     }
 
     private static String escapeSequenceReplacement(String input) {
-        return OTHER_FAKE_ESCAPES.matcher(input
-                .replace("\\n", "\n")).replaceAll("");
+        return input.replace("\\n", "\n")
+                .replace("\\t", "\t")
+                .replace("\\'", "'")
+                .replace("\\\"", "\"")
+                .replace("\\r", "\r")
+                .replace("\\\\", "\\")
+                .replace("\\f", "\f")
+                .replace("\\b", "\b");
     }
 }
 

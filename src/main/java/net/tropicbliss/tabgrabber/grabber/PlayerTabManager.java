@@ -14,6 +14,7 @@ import net.tropicbliss.tabgrabber.mixin.PlayerListHudMixin;
 import net.tropicbliss.tabgrabber.utils.StringUtils;
 
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 public class PlayerTabManager {
@@ -21,6 +22,7 @@ public class PlayerTabManager {
     private Scoreboard scoreboard;
     private ScoreboardObjective objective;
     private Formatter formatter;
+    private static final Pattern NEWLINE = Pattern.compile("\n");
 
     public void setScoreboard(Scoreboard scoreboard) {
         this.scoreboard = scoreboard;
@@ -116,7 +118,7 @@ public class PlayerTabManager {
         if (debugInfo.isPresent()) {
             String data = debugInfo.get();
             String formatted = formatter.format(data);
-            result = new ArrayList<>(Arrays.asList(formatted.split("\n")));
+            result = new ArrayList<>(Arrays.asList(NEWLINE.split(formatted)));
         }
         return result;
     }
