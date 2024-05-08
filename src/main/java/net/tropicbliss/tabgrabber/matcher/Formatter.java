@@ -1,60 +1,14 @@
 package net.tropicbliss.tabgrabber.matcher;
 
-import net.tropicbliss.tabgrabber.utils.StringUtils;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-sealed interface Segment extends RawSegment permits Regex, Str {
-}
-
-sealed interface RawSegment permits Segment, NewLine {
-}
-
 public class Formatter {
-    private final List<ArrayList<Segment>> segments = new ArrayList<>();
+    private final List<List<Token>> tokens;
 
     private Formatter(String formatting) throws PatternSyntaxException {
-        formatting = StringUtils.convertLiteralsToNewlines(formatting);
-        Stack<RawSegment> segmentsWithNewlines = new Stack<>();
-        String[] rawSegments = formatting.split("(?<=})|(?=\\{)");
-        Pattern NEWLINE_PATTERN = Pattern.compile("\n");
-        for (String segment : rawSegments) {
-            if (segment.startsWith("{") && segment.endsWith("}")) {
-                segmentsWithNewlines.add(new Regex(segment.substring(1, segment.length() - 1)));
-            } else {
-                String[] lineSegments = NEWLINE_PATTERN.split(segment);
-                if (lineSegments.length == 1 && !segment.endsWith("\n")) {
-                    segmentsWithNewlines.add(new Str(lineSegments[0]));
-                } else {
-                    for (String lineSegment : lineSegments) {
-                        if (!lineSegment.isEmpty()) {
-                            segmentsWithNewlines.add(new Str(lineSegment));
-                        }
-                        segmentsWithNewlines.add(new NewLine());
-                    }
-                    if (!segment.endsWith("\n")) {
-                        segmentsWithNewlines.pop();
-                    }
-                }
-            }
-        }
-        ArrayList<Segment> line = new ArrayList<>();
-        for (RawSegment segment : segmentsWithNewlines) {
-            if (segment instanceof NewLine) {
-                segments.add(line);
-                line = new ArrayList<>();
-            } else {
-                line.add((Segment) segment);
-            }
-        }
-        if (!line.isEmpty()) {
-            segments.add(line);
-        }
+        tokens = Tokenizer.tokenize(formatting);
     }
 
     public static Formatter compile(String formatting) throws PatternSyntaxException {
@@ -64,13 +18,13 @@ public class Formatter {
     public String format(String raw) {
         StringBuilder result = new StringBuilder();
         outer:
-        for (ArrayList<Segment> line : segments) {
+        for (List<Token> line : tokens) {
             StringBuilder resultLine = new StringBuilder();
-            for (Segment segment : line) {
-                if (segment instanceof Str seg) {
-                    resultLine.append(seg.inner());
-                } else if (segment instanceof Regex seg) {
-                    Matcher matcher = seg.inner.matcher(raw);
+            for (Token token : line) {
+                if (token instanceof Plaintext tok) {
+                    resultLine.append(tok.inner);
+                } else if (token instanceof Regex tok) {
+                    Matcher matcher = tok.inner.matcher(raw);
                     if (matcher.find()) {
                         if (matcher.groupCount() >= 1) {
                             resultLine.append(matcher.group(1));
@@ -85,21 +39,6 @@ public class Formatter {
             result.append(resultLine);
             result.append('\n');
         }
-        StringUtils.removeLastNewline(result);
-        return result.toString();
+        return result.toString().stripTrailing();
     }
-}
-
-final class Regex implements Segment {
-    public final Pattern inner;
-
-    public Regex(String regex) throws PatternSyntaxException {
-        this.inner = Pattern.compile(regex);
-    }
-}
-
-record Str(String inner) implements Segment {
-}
-
-final class NewLine implements RawSegment {
 }
