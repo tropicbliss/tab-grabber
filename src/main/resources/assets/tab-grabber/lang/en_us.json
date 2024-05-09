@@ -13,6 +13,7 @@
   "text.autoconfig.tab-grabber.option.textBackground": "Text background",
   "text.autoconfig.tab-grabber.option.textAlignment": "Text alignment",
   "text.autoconfig.tab-grabber.option.textShadow": "Text shadow",
+  "text.autoconfig.tab-grabber.option.textScale": "Text scale",
   "text.tabgrabber.enabled_hud": "Enabled Tab Grabber HUD",
   "text.tabgrabber.disabled_hud": "Disabled Tab Grabber HUD",
   "text.tabgrabber.invalid_regex": "One of the regexes in the formatting is invalid",

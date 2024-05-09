@@ -21,6 +21,9 @@ public class ModConfig implements ConfigData {
 
     public boolean textBackground = false;
 
+    @ConfigEntry.BoundedDiscrete(min = 50, max = 150)
+    public int textScale = 100;
+
     @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
     public TextAlignment textAlignment = TextAlignment.Left;
 

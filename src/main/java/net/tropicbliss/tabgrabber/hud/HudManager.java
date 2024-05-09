@@ -22,9 +22,8 @@ public class HudManager {
                 if (!lines.isEmpty()) {
                     MatrixStack matrixStack = ctx.getMatrices();
                     matrixStack.push();
-                    matrixStack.translate(5, 5, 0);
-                    matrixStack.scale(1, 1, 1);
-                    matrixStack.translate(-5, -5, 0);
+                    float scale = HudUtils.getScale();
+                    matrixStack.scale(scale, scale, scale);
                     HudUtils utils = new HudUtils(lines);
                     Coordinates coordinates = utils.getCoordinates();
                     int x = coordinates.x();

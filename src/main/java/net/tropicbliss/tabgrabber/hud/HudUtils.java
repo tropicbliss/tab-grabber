@@ -12,8 +12,8 @@ class HudUtils {
     private static final MinecraftClient client = MinecraftClient.getInstance();
     private static final TextRenderer textRenderer = client.textRenderer;
     private static final Window window = client.getWindow();
+    private static final ModConfig config = ConfigManager.getConfig();
 
-    private static final int SCALE = 1;
     private static final int PADDING = 4;
 
     private final List<String> lines;
@@ -31,35 +31,40 @@ class HudUtils {
     }
 
     private int calculateXAxis() {
-        int configX = ConfigManager.getConfig().x;
+        int configX = config.x;
         int screenWidth = window.getScaledWidth();
-        int adjustedWidth = Math.round((float) screenWidth - PADDING - boxWidth * SCALE);
-        int calculatedValue = Math.round((float) adjustedWidth / SCALE * configX / 100);
-        if (SCALE < 1) {
-            int adjustedScreenWidth = Math.round((float) screenWidth * SCALE);
+        float scale = getScale();
+        int adjustedWidth = Math.round((float) screenWidth - PADDING - boxWidth * scale);
+        int calculatedValue = Math.round((float) adjustedWidth / scale * configX / 100);
+        if (scale < 1) {
+            int adjustedScreenWidth = Math.round((float) screenWidth * scale);
             int maximumX = PADDING;
             int minimumX = Math.min(screenWidth - adjustedScreenWidth - PADDING, maximumX);
             return Math.max(Math.max(calculatedValue, minimumX), maximumX);
         } else {
-            int adjustedLineWidth = Math.round((float) boxWidth * SCALE);
+            int adjustedLineWidth = Math.round((float) boxWidth * scale);
             return Math.min(Math.max(calculatedValue, PADDING), screenWidth - PADDING - adjustedLineWidth);
         }
     }
 
     private int calculateYAxis() {
-        int configY = ConfigManager.getConfig().y;
+        int configY = config.y;
         int lineHeight = textRenderer.fontHeight;
         int size = lines.size();
         int screenHeight = window.getScaledHeight();
-
-        int adjustedHeight = Math.round((float) screenHeight - PADDING - lineHeight * size * SCALE);
-        int calculatedValue = Math.round((float) adjustedHeight / SCALE * configY / 100);
-        if (SCALE < 1) {
+        float scale = getScale();
+        int adjustedHeight = Math.round((float) screenHeight - PADDING - lineHeight * size * scale);
+        int calculatedValue = Math.round((float) adjustedHeight / scale * configY / 100);
+        if (scale < 1) {
             return Math.max(calculatedValue, PADDING);
         } else {
-            int adjustedLineHeight = Math.round((float) lineHeight * size * SCALE);
+            int adjustedLineHeight = Math.round((float) lineHeight * size * scale);
             return Math.min(Math.max(calculatedValue, PADDING), screenHeight - adjustedLineHeight - PADDING);
         }
+    }
+
+    public static float getScale() {
+        return (float) config.textScale / 100;
     }
 
     public LineUtils getLineUtilsInstance(String line) {
@@ -79,7 +84,7 @@ class HudUtils {
 
         public int getTextAlignmentOffset() {
             int offset = 0;
-            ModConfig.TextAlignment textAlignment = ConfigManager.getConfig().textAlignment;
+            ModConfig.TextAlignment textAlignment = config.textAlignment;
             switch (textAlignment) {
                 case Right -> offset = boxWidth - lineLength;
                 case Center -> offset = (boxWidth - lineLength) / 2;

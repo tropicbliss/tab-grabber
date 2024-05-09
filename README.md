@@ -101,8 +101,8 @@ Enter the config screen via the mod menu.
 - Text background
 - Text alignment
 - Text shadow
+- Text scale
 - Server configuration
-- 
 
 #### Server configuration
 
