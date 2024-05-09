@@ -44,3 +44,4 @@ jobs:
           modrinth-id: AXxtKawg
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           changelog-file: CHANGELOG.*
+          github-generate-changelog: true
