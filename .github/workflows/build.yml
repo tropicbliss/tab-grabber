@@ -43,3 +43,4 @@ jobs:
         with:
           modrinth-id: AXxtKawg
           modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          changelog-file: CHANGELOG.*
