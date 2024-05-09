@@ -1,1 +1,1 @@
-Tes
+Allow setting of text scale (size)
