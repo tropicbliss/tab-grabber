@@ -33,8 +33,10 @@ jobs:
       - name: build
         run: ./gradlew build
       - uses: Kir-Antipov/mc-publish@v3.3
-        if: ${{ matrix.java == '17' && startsWith(github.ref, 'refs/tags/') }}
+        # if: ${{ matrix.java == '17' && startsWith(github.ref, 'refs/tags/') }}
+        if: ${{ matrix.java == '17' }}
         with:
-          modrinth-id: AXxtKawg
-          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
+          # modrinth-id: AXxtKawg
+          # modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
           changelog-file: CHANGELOG.md
+          github-token: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
