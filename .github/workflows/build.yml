@@ -8,6 +8,8 @@ on: [ pull_request, push ]
 
 jobs:
   build:
+    permissions:
+      contents: write
     strategy:
       matrix:
         # Use these Java versions
@@ -36,3 +38,7 @@ jobs:
         with:
           name: Artifacts
           path: build/libs/
+      - uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          modrinth-id: AXxtKawg
+          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
