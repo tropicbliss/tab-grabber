@@ -21,11 +21,8 @@ public class HudManager {
                 List<String> lines = TabGrabber.tabManager.getHudInfo();
                 if (!lines.isEmpty()) {
                     MatrixStack matrixStack = ctx.getMatrices();
-                    matrixStack.push();
-                    float scale = HudUtils.getScale();
-                    matrixStack.scale(scale, scale, scale);
                     HudUtils utils = new HudUtils(lines);
-                    Coordinates coordinates = utils.getCoordinates();
+                    Coordinates coordinates = utils.push(matrixStack);
                     int x = coordinates.x();
                     int y = coordinates.y();
                     for (String line : lines) {
@@ -37,7 +34,7 @@ public class HudManager {
                         ctx.drawText(instance.textRenderer, line, x + offset, y, config.textColor, config.textShadow);
                         y += LINE_HEIGHT;
                     }
-                    matrixStack.pop();
+                    utils.pop(matrixStack);
                 }
             }
         });

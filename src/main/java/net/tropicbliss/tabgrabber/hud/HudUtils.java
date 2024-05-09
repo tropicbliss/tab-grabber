@@ -3,6 +3,7 @@ package net.tropicbliss.tabgrabber.hud;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.Window;
+import net.minecraft.client.util.math.MatrixStack;
 import net.tropicbliss.tabgrabber.config.ConfigManager;
 import net.tropicbliss.tabgrabber.config.ModConfig;
 
@@ -24,16 +25,22 @@ class HudUtils {
         lines.stream().map(textRenderer::getWidth).max(Integer::compare).ifPresent(width -> boxWidth = width);
     }
 
-    public Coordinates getCoordinates() {
-        int x = calculateXAxis();
-        int y = calculateYAxis();
+    public Coordinates push(MatrixStack stack) {
+        float scale = getScale();
+        stack.push();
+        stack.scale(scale, scale, scale);
+        int x = calculateXAxis(scale);
+        int y = calculateYAxis(scale);
         return new Coordinates(x, y);
     }
 
-    private int calculateXAxis() {
+    public void pop(MatrixStack stack) {
+        stack.pop();
+    }
+
+    private int calculateXAxis(float scale) {
         int configX = config.x;
         int screenWidth = window.getScaledWidth();
-        float scale = getScale();
         int adjustedWidth = Math.round((float) screenWidth - PADDING - boxWidth * scale);
         int calculatedValue = Math.round((float) adjustedWidth / scale * configX / 100);
         if (scale < 1) {
@@ -47,12 +54,11 @@ class HudUtils {
         }
     }
 
-    private int calculateYAxis() {
+    private int calculateYAxis(float scale) {
         int configY = config.y;
         int lineHeight = textRenderer.fontHeight;
         int size = lines.size();
         int screenHeight = window.getScaledHeight();
-        float scale = getScale();
         int adjustedHeight = Math.round((float) screenHeight - PADDING - lineHeight * size * scale);
         int calculatedValue = Math.round((float) adjustedHeight / scale * configY / 100);
         if (scale < 1) {
