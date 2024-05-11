@@ -133,5 +133,5 @@ Player2: null
 
 This is normal, and you can ignore that if you don't particularly care about the scoreboard.
 
-There will also be an action you can click on below the debug info to copy it to your clipboard.
+There will also be a link you can click on below the debug info to copy it to your clipboard.
 This is particularly useful if the server uses any esoteric symbols or a resource pack to style the tab menu.
