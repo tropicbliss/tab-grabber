@@ -25,6 +25,10 @@ class HudUtils {
         lines.stream().map(textRenderer::getWidth).max(Integer::compare).ifPresent(width -> boxWidth = width);
     }
 
+    public static float getScale() {
+        return (float) config.textScale / 100;
+    }
+
     public Coordinates push(MatrixStack stack) {
         float scale = getScale();
         stack.push();
@@ -67,10 +71,6 @@ class HudUtils {
             int adjustedLineHeight = Math.round((float) lineHeight * size * scale);
             return Math.min(Math.max(calculatedValue, PADDING), screenHeight - adjustedLineHeight - PADDING);
         }
-    }
-
-    public static float getScale() {
-        return (float) config.textScale / 100;
     }
 
     public LineUtils getLineUtilsInstance(String line) {

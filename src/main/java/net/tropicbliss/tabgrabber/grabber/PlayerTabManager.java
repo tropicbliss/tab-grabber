@@ -17,12 +17,16 @@ import java.util.*;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+interface ScoreboardKey {
+    String getString();
+}
+
 public class PlayerTabManager {
+    private static final Pattern NEWLINE = Pattern.compile("\n");
     private final MinecraftClient client = MinecraftClient.getInstance();
     private Scoreboard scoreboard;
     private ScoreboardObjective objective;
     private Formatter formatter;
-    private static final Pattern NEWLINE = Pattern.compile("\n");
 
     public void setScoreboard(Scoreboard scoreboard) {
         this.scoreboard = scoreboard;
@@ -122,10 +126,6 @@ public class PlayerTabManager {
         }
         return result;
     }
-}
-
-interface ScoreboardKey {
-    String getString();
 }
 
 final class Player implements ScoreboardKey {

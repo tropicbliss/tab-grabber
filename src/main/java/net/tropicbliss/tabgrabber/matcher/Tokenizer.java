@@ -1,12 +1,16 @@
 package net.tropicbliss.tabgrabber.matcher;
 
-import net.tropicbliss.tabgrabber.TabGrabber;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
+
+sealed interface Token extends InternalToken permits Plaintext, Regex {
+}
+
+sealed interface InternalToken permits Token, Newline {
+}
 
 class Tokenizer {
     private static final Pattern BRACE_PAIR = Pattern.compile("(?<!\\\\)\\{[^}]*(?<!\\\\)}");
@@ -84,11 +88,8 @@ class Tokenizer {
     }
 }
 
-sealed interface Token extends InternalToken permits Plaintext, Regex {}
-
-sealed interface InternalToken permits Token, Newline {}
-
-final class Newline implements InternalToken { }
+final class Newline implements InternalToken {
+}
 
 final class Plaintext implements Token {
     public String inner;
