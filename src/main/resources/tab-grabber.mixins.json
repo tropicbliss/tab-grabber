@@ -3,7 +3,8 @@
   "package": "net.tropicbliss.tabgrabber.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "PlayerListHudMixin"
+    "PlayerListHudMixin",
+    "ClientPlayNetworkHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

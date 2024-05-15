@@ -27,6 +27,12 @@ public class PlayerTabManager {
     private Scoreboard scoreboard;
     private ScoreboardObjective objective;
     private Formatter formatter;
+    private List<String> cachedHudInfo;
+    private boolean isNewPacketReceived = false;
+
+    public void newPacketReceived() {
+        isNewPacketReceived = true;
+    }
 
     public void setScoreboard(Scoreboard scoreboard) {
         this.scoreboard = scoreboard;
@@ -95,6 +101,7 @@ public class PlayerTabManager {
 
     public void clearFormatter() {
         formatter = null;
+        cachedHudInfo = null;
     }
 
     public Optional<String> getDebugInfo() {
@@ -114,6 +121,9 @@ public class PlayerTabManager {
     }
 
     public List<String> getHudInfo() {
+        if (cachedHudInfo != null && !isNewPacketReceived) {
+            return cachedHudInfo;
+        }
         ArrayList<String> result = new ArrayList<>();
         if (formatter == null || !TabGrabber.enableHudRender) {
             return result;
@@ -124,6 +134,8 @@ public class PlayerTabManager {
             String formatted = formatter.format(data);
             result = new ArrayList<>(Arrays.asList(NEWLINE.split(formatted)));
         }
+        cachedHudInfo = result;
+        isNewPacketReceived = false;
         return result;
     }
 }

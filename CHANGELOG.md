@@ -1,1 +1,1 @@
-Allow setting of text scale (size)
+Only update HUD on new header/footer or scoreboard update packet (thanks proffa_)
