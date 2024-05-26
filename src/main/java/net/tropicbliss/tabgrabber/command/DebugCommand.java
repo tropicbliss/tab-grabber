@@ -8,13 +8,14 @@ import net.minecraft.text.HoverEvent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.tropicbliss.tabgrabber.TabGrabber;
+import net.tropicbliss.tabgrabber.grabber.PlayerTabManager;
 
 import java.util.Optional;
 
 public class DebugCommand {
     public static void register() {
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("tabgrabberdebug").executes(ctx -> {
-            Optional<String> debugInfo = TabGrabber.tabManager.getDebugInfo();
+            Optional<String> debugInfo = PlayerTabManager.getDebugInfo();
             if (debugInfo.isPresent()) {
                 String debugText = debugInfo.get();
                 if (debugText.isEmpty()) {

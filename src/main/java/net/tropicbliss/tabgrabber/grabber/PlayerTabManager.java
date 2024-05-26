@@ -1,5 +1,6 @@
 package net.tropicbliss.tabgrabber.grabber;
 
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.PlayerListEntry;
 import net.minecraft.scoreboard.*;
@@ -9,6 +10,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.tropicbliss.tabgrabber.TabGrabber;
 import net.tropicbliss.tabgrabber.config.ConfigManager;
+import net.tropicbliss.tabgrabber.config.ModConfig;
 import net.tropicbliss.tabgrabber.matcher.Formatter;
 import net.tropicbliss.tabgrabber.mixin.PlayerListHudMixin;
 import net.tropicbliss.tabgrabber.utils.StringUtils;
@@ -23,38 +25,53 @@ interface ScoreboardKey {
 
 public class PlayerTabManager {
     private static final Pattern NEWLINE = Pattern.compile("\n");
-    private final MinecraftClient client = MinecraftClient.getInstance();
-    private Scoreboard scoreboard;
-    private ScoreboardObjective objective;
-    private Formatter formatter;
-    private List<String> cachedHudInfo;
-    private boolean isNewPacketReceived = false;
+    private static final MinecraftClient client = MinecraftClient.getInstance();
+    private static Scoreboard scoreboard;
+    private static ScoreboardObjective objective;
+    private static Formatter formatter;
+    private static List<String> cachedHudInfo;
+    private static boolean isNewPacketReceived = false;
+    private static boolean enableHudRender = false;
+    private static boolean isValidScene = false;
 
-    public void newPacketReceived() {
+    public static void register() {
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            enableHudRender = false;
+            isValidScene = false;
+
+            if (client.player != null && client.world != null) {
+                Scoreboard scoreboard = client.world.getScoreboard();
+                ScoreboardObjective scoreboardObjective = scoreboard.getObjectiveForSlot(ScoreboardDisplaySlot.LIST);
+                ModConfig config = ConfigManager.getConfig();
+
+                if (!client.isInSingleplayer()) {
+                    isValidScene = true;
+                    PlayerTabManager.scoreboard = scoreboard;
+                    PlayerTabManager.objective = scoreboardObjective;
+                    if (config.enable)
+                        enableHudRender = true;
+                }
+            }
+        });
+    }
+
+    public static void newPacketReceived() {
         isNewPacketReceived = true;
     }
 
-    public void setScoreboard(Scoreboard scoreboard) {
-        this.scoreboard = scoreboard;
-    }
-
-    public void setObjective(ScoreboardObjective objective) {
-        this.objective = objective;
-    }
-
-    private List<PlayerListEntry> collectPlayerEntries() {
+    private static List<PlayerListEntry> collectPlayerEntries() {
         return ((PlayerListHudMixin) client.inGameHud.getPlayerListHud()).invokeCollectPlayerEntries();
     }
 
-    private Text getHeader() {
+    private static Text getHeader() {
         return ((PlayerListHudMixin) client.inGameHud.getPlayerListHud()).getHeader();
     }
 
-    private Text getFooter() {
+    private static Text getFooter() {
         return ((PlayerListHudMixin) client.inGameHud.getPlayerListHud()).getFooter();
     }
 
-    private Map<ScoreboardKey, String> getScoreboardKeyPairs() {
+    private static Map<ScoreboardKey, String> getScoreboardKeyPairs() {
         LinkedHashMap<ScoreboardKey, String> result = new LinkedHashMap<>();
         if (scoreboard != null) {
             List<PlayerListEntry> players = collectPlayerEntries();
@@ -87,7 +104,7 @@ public class PlayerTabManager {
         return result;
     }
 
-    public void updateFormatter(String domain) {
+    public static void updateFormatter(String domain) {
         try {
             formatter = ConfigManager.getConfig().serverConfigs.stream().filter(config -> config.domain.equals(domain)).findFirst().map(config -> Formatter.compile(config.format)).orElse(null);
         } catch (PatternSyntaxException e) {
@@ -99,13 +116,13 @@ public class PlayerTabManager {
         }
     }
 
-    public void clearFormatter() {
+    public static void clearFormatter() {
         formatter = null;
         cachedHudInfo = null;
     }
 
-    public Optional<String> getDebugInfo() {
-        if (TabGrabber.isValidScene) {
+    public static Optional<String> getDebugInfo() {
+        if (isValidScene) {
             Map<ScoreboardKey, String> scoreboardInfo = getScoreboardKeyPairs();
             StringBuilder result = new StringBuilder();
             for (Map.Entry<ScoreboardKey, String> entry : scoreboardInfo.entrySet()) {
@@ -120,13 +137,13 @@ public class PlayerTabManager {
         return Optional.empty();
     }
 
-    public List<String> getHudInfo() {
+    public static List<String> getHudInfo() {
+        ArrayList<String> result = new ArrayList<>();
+        if (formatter == null || !enableHudRender) {
+            return result;
+        }
         if (cachedHudInfo != null && !isNewPacketReceived) {
             return cachedHudInfo;
-        }
-        ArrayList<String> result = new ArrayList<>();
-        if (formatter == null || !TabGrabber.enableHudRender) {
-            return result;
         }
         Optional<String> debugInfo = getDebugInfo();
         if (debugInfo.isPresent()) {

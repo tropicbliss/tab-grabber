@@ -5,7 +5,7 @@ import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.util.ActionResult;
-import net.tropicbliss.tabgrabber.TabGrabber;
+import net.tropicbliss.tabgrabber.grabber.PlayerTabManager;
 
 public class ConfigManager {
     public static void register() {
@@ -13,7 +13,7 @@ public class ConfigManager {
         AutoConfig.getConfigHolder(ModConfig.class).registerSaveListener((modConfigConfigHolder, config) -> {
             MinecraftClient client = MinecraftClient.getInstance();
             if (client.getCurrentServerEntry() != null) {
-                TabGrabber.tabManager.updateFormatter(client.getCurrentServerEntry().address);
+                PlayerTabManager.updateFormatter(client.getCurrentServerEntry().address);
             }
             return ActionResult.PASS;
         });
