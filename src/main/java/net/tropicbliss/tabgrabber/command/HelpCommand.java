@@ -7,7 +7,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 
 public class HelpCommand {
-    private static final String HELP_LINK = "https://github.com/tropicbliss/tab-grabber?tab=readme-ov-file#usage";
+    private static final String HELP_LINK = "https://modrinth.com/mod/tab-grabber";
 
     public static void register() {
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> dispatcher.register(ClientCommandManager.literal("tabgrabberhelp").executes(ctx -> {

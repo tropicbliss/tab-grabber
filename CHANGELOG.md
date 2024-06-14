@@ -1,1 +1,1 @@
-Only update HUD on new header/footer or scoreboard update packet (thanks proffa_)
+Update to Minecraft 1.21

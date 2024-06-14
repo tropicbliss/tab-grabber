@@ -20,6 +20,11 @@ public abstract class ClientPlayNetworkHandlerMixin {
         PlayerTabManager.newPacketReceived();
     }
 
+    @Inject(method = "onScoreboardScoreUpdate", at = @At("HEAD"))
+    private void onScoreboardScoreUpdate(ScoreboardScoreUpdateS2CPacket pkt, CallbackInfo ci) {
+        PlayerTabManager.newPacketReceived();
+    }
+
     @Inject(method = "onScoreboardScoreReset", at = @At("HEAD"))
     private void onScoreboardScoreReset(ScoreboardScoreResetS2CPacket pkt, CallbackInfo ci) {
         PlayerTabManager.newPacketReceived();

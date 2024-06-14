@@ -22,14 +22,14 @@ class Tokenizer {
         result.add(new ArrayList<>());
         for (String rawSegment : rawSegments) {
             if (rawSegment.startsWith("{") && rawSegment.endsWith("}")) {
-                result.get(result.size() - 1).add(new Regex(rawSegment.substring(1, rawSegment.length() - 1)));
+                result.getLast().add(new Regex(rawSegment.substring(1, rawSegment.length() - 1)));
             } else {
                 rawSegment = rawSegment.replace("\\{", "{");
                 rawSegment = rawSegment.replace("\\}", "}");
                 List<InternalToken> lineSegments = delineateNewlines(rawSegment);
                 for (InternalToken token : lineSegments) {
                     if (token instanceof Plaintext plaintext) {
-                        result.get(result.size() - 1).add(plaintext);
+                        result.getLast().add(plaintext);
                     } else {
                         result.add(new ArrayList<>());
                     }
