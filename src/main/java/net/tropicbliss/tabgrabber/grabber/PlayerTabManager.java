@@ -111,7 +111,7 @@ public class PlayerTabManager {
             TabGrabber.LOGGER.warn("Invalid regex provided by the user");
             if (client.player != null) {
                 Text text = Text.translatable("text.tabgrabber.invalid_regex").formatted(Formatting.RED);
-                client.player.sendMessage(text);
+                client.player.sendMessage(text, false);
             }
         }
     }

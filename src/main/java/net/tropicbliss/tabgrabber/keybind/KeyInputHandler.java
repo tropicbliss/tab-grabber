@@ -24,7 +24,7 @@ public class KeyInputHandler {
                 if (client.player != null) {
                     ModConfig config = ConfigManager.getConfig();
                     String messageKey = config.enable ? "text.tabgrabber.enabled_hud" : "text.tabgrabber.disabled_hud";
-                    client.player.sendMessage(Text.translatable(messageKey));
+                    client.player.sendMessage(Text.translatable(messageKey), false);
                 }
             }
         });
