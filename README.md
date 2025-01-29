@@ -14,7 +14,7 @@ that particular use case.
 
 ## Requirements
 
-- Minecraft 1.20.4-1.21.1/1.21.3
+- Minecraft 1.20.4-1.21.1/1.21.3-1.21.4
 - [Fabric](https://fabricmc.net/)
 - [Fabric API](https://modrinth.com/mod/fabric-api)
 - [Cloth Config](https://modrinth.com/mod/cloth-config)
