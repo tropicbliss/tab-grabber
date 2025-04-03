@@ -26,8 +26,8 @@ loom {
 
     mods {
         "tab-grabber" {
-            sourceSet sourceSets.main
-            // sourceSet sourceSets.client
+            // sourceSet sourceSets.main
+            sourceSet sourceSets.client
         }
     }
 

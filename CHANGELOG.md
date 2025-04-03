@@ -1,1 +1,1 @@
-Upgrade to Minecraft 1.21.5
+Loosen Fabric version restriction
