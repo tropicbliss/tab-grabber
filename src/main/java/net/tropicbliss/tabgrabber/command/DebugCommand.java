@@ -7,7 +7,6 @@ import net.minecraft.text.ClickEvent;
 import net.minecraft.text.HoverEvent;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.tropicbliss.tabgrabber.TabGrabber;
 import net.tropicbliss.tabgrabber.grabber.PlayerTabManager;
 
 import java.util.Optional;
@@ -31,7 +30,7 @@ public class DebugCommand {
                         Text serverIpDebug = Text.translatable("text.autoconfig.tab-grabber.option.ServerConfig.domain").append(Text.literal(": " + serverIp));
                         ctx.getSource().sendFeedback(serverIpDebug);
                     }
-                    Text debugClipboardPrompt = Text.translatable("text.tabgrabber.debug_clipboard").styled(style -> style.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.translatable("text.tabgrabber.click_here_to_copy"))).withClickEvent(new ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, sDebugInfo)).withUnderline(true).withColor(Formatting.BLUE));
+                    Text debugClipboardPrompt = Text.translatable("text.tabgrabber.debug_clipboard").styled(style -> style.withHoverEvent(new HoverEvent.ShowText(Text.translatable("text.tabgrabber.click_here_to_copy"))).withClickEvent(new ClickEvent.CopyToClipboard(sDebugInfo)).withUnderline(true).withColor(Formatting.BLUE));
                     ctx.getSource().sendFeedback(debugClipboardPrompt);
                 }
                 return 0;
