@@ -1,1 +1,1 @@
-Upgrade to Minecraft 1.21.3 (not tested on 1.21.2)
+Upgrade to Minecraft 1.21.5
