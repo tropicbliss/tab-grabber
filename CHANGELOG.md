@@ -1,1 +1,1 @@
-Fix formatting bug relating to nested braces via refactor
+Retain original behaviour

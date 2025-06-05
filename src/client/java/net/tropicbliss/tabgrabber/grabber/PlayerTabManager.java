@@ -146,7 +146,7 @@ public class PlayerTabManager {
     }
 
     public static List<String> getHudInfo() {
-        ArrayList<String> result = new ArrayList<>();
+        List<String> result = new ArrayList<>();
         if (formatter == null || !enableHudRender) {
             return result;
         }
@@ -156,8 +156,7 @@ public class PlayerTabManager {
         Optional<String> debugInfo = getDebugInfo();
         if (debugInfo.isPresent()) {
             String data = debugInfo.get();
-            String formatted = formatter.format(data);
-            result = new ArrayList<>(Arrays.asList(NEWLINE.split(formatted)));
+            result = formatter.format(data);
         }
         cachedHudInfo = result;
         isNewPacketReceived = false;
