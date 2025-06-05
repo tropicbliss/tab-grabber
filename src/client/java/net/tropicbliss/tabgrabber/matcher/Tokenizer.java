@@ -2,78 +2,80 @@ package net.tropicbliss.tabgrabber.matcher;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-sealed interface Token extends InternalToken permits Plaintext, Regex {
-}
-
-sealed interface InternalToken permits Token, Newline {
-}
-
 class Tokenizer {
-    private static final Pattern BRACE_PAIR = Pattern.compile("(?<!\\\\)\\{[^}]*(?<!\\\\)}");
-
-    public static List<List<Token>> tokenize(String input) throws PatternSyntaxException {
-        String canonicalInput = escapeSequenceReplacement(input);
-        List<String> rawSegments = splitWithDelimiters(canonicalInput);
-        List<List<Token>> result = new ArrayList<>();
-        result.add(new ArrayList<>());
-        for (String rawSegment : rawSegments) {
-            if (rawSegment.startsWith("{") && rawSegment.endsWith("}")) {
-                result.getLast().add(new Regex(rawSegment.substring(1, rawSegment.length() - 1)));
+    public static List<Token> tokenize(String text) throws PatternSyntaxException, LexError {
+        text = escapeSequenceReplacement(text);
+        List<Token> tokens = new ArrayList<>();
+        int i = 0;
+        while (i < text.length()) {
+            char currentChar = text.charAt(i);
+            if (currentChar == '\n') {
+                tokens.add(new Newline());
+                i++;
+            } else if (currentChar == '{') {
+                LexResult result = collectBraceGroup(text, i);
+                tokens.add(new Regex(result.content()));
+                i = result.position();
+            } else if (currentChar == '}') {
+                throw new LexError("Unmatched closing brace");
             } else {
-                rawSegment = rawSegment.replace("\\{", "{");
-                rawSegment = rawSegment.replace("\\}", "}");
-                List<InternalToken> lineSegments = delineateNewlines(rawSegment);
-                for (InternalToken token : lineSegments) {
-                    if (token instanceof Plaintext plaintext) {
-                        result.getLast().add(plaintext);
-                    } else {
-                        result.add(new ArrayList<>());
-                    }
+                LexResult result = collectLiteral(text, i);
+                if (!result.content().isEmpty()) {
+                    tokens.add(new Plaintext(result.content()));
                 }
+                i = result.position();
             }
         }
-        return result;
+        return tokens;
     }
 
-    public static List<InternalToken> delineateNewlines(String input) {
-        List<InternalToken> result = new ArrayList<>();
-        StringBuilder buffer = new StringBuilder();
-        for (char c : input.toCharArray()) {
-            if (c == '\n') {
-                if (!buffer.isEmpty()) {
-                    result.add(new Plaintext(buffer.toString()));
-                    buffer.setLength(0);
+    private static LexResult collectBraceGroup(String text, int start) throws LexError {
+        if (text.charAt(start) != '{') {
+            throw new IllegalArgumentException("Expected '{'");
+        }
+        int i = start + 1;
+        int braceCount = 1;
+        while (i < text.length()) {
+            char currentChar = text.charAt(i);
+            if (currentChar == '\\' && i + 1 < text.length() &&
+                    (text.charAt(i + 1) == '{' || text.charAt(i + 1) == '}')) {
+                i += 2;
+            } else if (currentChar == '{') {
+                braceCount++;
+                i++;
+            } else if (currentChar == '}') {
+                braceCount--;
+                if (braceCount == 0) {
+                    String content = text.substring(start + 1, i);
+                    return new LexResult(content, i + 1);
                 }
-                result.add(new Newline());
+                i++;
             } else {
-                buffer.append(c);
+                i++;
             }
         }
-        if (!buffer.isEmpty()) {
-            result.add(new Plaintext(buffer.toString()));
-        }
-        return result;
+        throw new LexError("Unclosed brace group");
     }
 
-    private static List<String> splitWithDelimiters(String input) {
-        List<String> result = new ArrayList<>();
-        Matcher matcher = BRACE_PAIR.matcher(input);
-        int start = 0;
-        while (matcher.find()) {
-            if (start != matcher.start()) {
-                result.add(input.substring(start, matcher.start()));
+    private static LexResult collectLiteral(String text, int start) {
+        StringBuilder result = new StringBuilder();
+        int i = start;
+        while (i < text.length()) {
+            char currentChar = text.charAt(i);
+            if (currentChar == '\\' && i + 1 < text.length() &&
+                    (text.charAt(i + 1) == '{' || text.charAt(i + 1) == '}')) {
+                result.append(text.charAt(i + 1));
+                i += 2;
+            } else if (currentChar == '\n' || currentChar == '{' || currentChar == '}') {
+                break;
+            } else {
+                result.append(currentChar);
+                i++;
             }
-            result.add(matcher.group());
-            start = matcher.end();
         }
-        if (start < input.length()) {
-            result.add(input.substring(start));
-        }
-        return result;
+        return new LexResult(result.toString(), i);
     }
 
     private static String escapeSequenceReplacement(String input) {
@@ -85,24 +87,5 @@ class Tokenizer {
                 .replace("\\\\", "\\")
                 .replace("\\f", "\f")
                 .replace("\\b", "\b");
-    }
-}
-
-final class Newline implements InternalToken {
-}
-
-final class Plaintext implements Token {
-    public String inner;
-
-    public Plaintext(String inner) {
-        this.inner = inner;
-    }
-}
-
-final class Regex implements Token {
-    public Pattern inner;
-
-    public Regex(String inner) {
-        this.inner = Pattern.compile(inner);
     }
 }

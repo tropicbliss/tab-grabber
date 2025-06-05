@@ -12,6 +12,7 @@ import net.tropicbliss.tabgrabber.TabGrabber;
 import net.tropicbliss.tabgrabber.config.ConfigManager;
 import net.tropicbliss.tabgrabber.config.ModConfig;
 import net.tropicbliss.tabgrabber.matcher.Formatter;
+import net.tropicbliss.tabgrabber.matcher.LexError;
 import net.tropicbliss.tabgrabber.mixin.PlayerListHudMixin;
 import net.tropicbliss.tabgrabber.utils.StringUtils;
 
@@ -106,12 +107,19 @@ public class PlayerTabManager {
 
     public static void updateFormatter(String domain) {
         try {
-            formatter = ConfigManager.getConfig().serverConfigs.stream().filter(config -> config.domain.equals(domain)).findFirst().map(config -> Formatter.compile(config.format)).orElse(null);
+            var server = ConfigManager.getConfig().serverConfigs.stream().filter(config -> config.domain.equals(domain)).findFirst();
+            if (server.isPresent()) {
+                formatter = Formatter.compile(server.get().format);
+            }
         } catch (PatternSyntaxException e) {
             TabGrabber.LOGGER.warn("Invalid regex provided by the user");
             if (client.player != null) {
                 Text text = Text.translatable("text.tabgrabber.invalid_regex").formatted(Formatting.RED);
                 client.player.sendMessage(text, false);
+            }
+        } catch (LexError e) {
+            if (client.player != null) {
+                client.player.sendMessage(Text.literal(e.getMessage()), false);
             }
         }
     }

@@ -16,7 +16,8 @@ public class HudManager {
         MinecraftClient instance = MinecraftClient.getInstance();
         ModConfig config = ConfigManager.getConfig();
 
-        HudRenderCallback.EVENT.register((ctx, tickDelta) -> {
+        // TODO: `HudRenderCallback` is deprecated
+        HudRenderCallback.EVENT.register((ctx, counter) -> {
             List<String> lines = PlayerTabManager.getHudInfo();
             if (!lines.isEmpty()) {
                 MatrixStack matrixStack = ctx.getMatrices();

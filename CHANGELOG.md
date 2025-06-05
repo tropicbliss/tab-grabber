@@ -1,1 +1,1 @@
-Loosen Fabric version restriction
+Fix formatting bug relating to nested braces via refactor
