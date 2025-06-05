@@ -1,1 +1,1 @@
-Retain original behaviour
+Optimise formatting code

@@ -156,7 +156,8 @@ public class PlayerTabManager {
         Optional<String> debugInfo = getDebugInfo();
         if (debugInfo.isPresent()) {
             String data = debugInfo.get();
-            result = formatter.format(data);
+            String formatted = formatter.format(data);
+            result = new ArrayList<>(Arrays.asList(NEWLINE.split(formatted)));
         }
         cachedHudInfo = result;
         isNewPacketReceived = false;
