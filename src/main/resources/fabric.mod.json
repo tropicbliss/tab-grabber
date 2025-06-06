@@ -27,7 +27,7 @@
     "tab-grabber.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.16.7",
+    "fabricloader": ">=0.16.14",
     "minecraft": ">=1.21.3",
     "java": ">=21",
     "fabric-api": "*",
