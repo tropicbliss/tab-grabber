@@ -16,15 +16,15 @@ class Tokenizer {
                 i++;
             } else if (currentChar == '{') {
                 LexResult result = collectBraceGroup(text, i);
-                tokens.add(new Regex(result.content()));
+                if (!result.content().isEmpty()) {
+                    tokens.add(new Regex(result.content()));
+                }
                 i = result.position();
             } else if (currentChar == '}') {
                 throw new LexError("Unmatched closing brace");
             } else {
                 LexResult result = collectLiteral(text, i);
-                if (!result.content().isEmpty()) {
-                    tokens.add(new Plaintext(result.content()));
-                }
+                tokens.add(new Plaintext(result.content()));
                 i = result.position();
             }
         }
@@ -36,23 +36,19 @@ class Tokenizer {
             throw new IllegalArgumentException("Expected '{'");
         }
         int i = start + 1;
-        int braceCount = 1;
+        StringBuilder result = new StringBuilder();
         while (i < text.length()) {
             char currentChar = text.charAt(i);
             if (currentChar == '\\' && i + 1 < text.length() &&
                     (text.charAt(i + 1) == '{' || text.charAt(i + 1) == '}')) {
+                result.append(text.charAt(i + 1));
                 i += 2;
             } else if (currentChar == '{') {
-                braceCount++;
-                i++;
+                throw new LexError("Unescaped opening brace");
             } else if (currentChar == '}') {
-                braceCount--;
-                if (braceCount == 0) {
-                    String content = text.substring(start + 1, i);
-                    return new LexResult(content, i + 1);
-                }
-                i++;
+                return new LexResult(result.toString(), i + 1);
             } else {
+                result.append(currentChar);
                 i++;
             }
         }
