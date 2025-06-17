@@ -230,5 +230,3 @@ final class Metadata implements ScoreboardKey {
         return keyName;
     }
 }
-
-
