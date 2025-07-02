@@ -3,9 +3,9 @@ package net.tropicbliss.tabgrabber.hud;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.Window;
-import net.minecraft.client.util.math.MatrixStack;
 import net.tropicbliss.tabgrabber.config.ConfigManager;
 import net.tropicbliss.tabgrabber.config.ModConfig;
+import org.joml.Matrix3x2fStack;
 
 import java.util.List;
 
@@ -29,17 +29,17 @@ class HudUtils {
         return (float) config.textScale / 100;
     }
 
-    public Coordinates push(MatrixStack stack) {
+    public Coordinates push(Matrix3x2fStack stack) {
         float scale = getScale();
-        stack.push();
-        stack.scale(scale, scale, scale);
+        stack.pushMatrix();
+        stack.scale(scale, scale);
         int x = calculateXAxis(scale);
         int y = calculateYAxis(scale);
         return new Coordinates(x, y);
     }
 
-    public void pop(MatrixStack stack) {
-        stack.pop();
+    public void pop(Matrix3x2fStack stack) {
+        stack.popMatrix();
     }
 
     private int calculateXAxis(float scale) {
