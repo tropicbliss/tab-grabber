@@ -19,6 +19,13 @@ repositories {
 
     maven { url "https://maven.shedaniel.me/" }
     maven { url "https://maven.terraformersmc.com/releases/" }
+
+    maven {
+        url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1"
+        content {
+            includeGroup "me.djtheredstoner"
+        }
+    }
 }
 
 loom {
@@ -26,11 +33,9 @@ loom {
 
     mods {
         "tab-grabber" {
-            // sourceSet sourceSets.main
             sourceSet sourceSets.client
         }
     }
-
 }
 
 dependencies {
@@ -44,6 +49,8 @@ dependencies {
 
     modApi("me.shedaniel.cloth:cloth-config-fabric:19.0.147")
     modApi("com.terraformersmc:modmenu:15.0.0-beta.3")
+
+    modRuntimeOnly("me.djtheredstoner:DevAuth-fabric:1.1.2")
 }
 
 processResources {
