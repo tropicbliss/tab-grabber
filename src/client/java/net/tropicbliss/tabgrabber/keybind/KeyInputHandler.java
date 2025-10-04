@@ -14,7 +14,7 @@ public class KeyInputHandler {
     public static String KEY_TOGGLE_GUI = "key." + TabGrabber.MOD_ID + ".togglegui";
     public static KeyBinding toggleGuiKey = KeyBindingHelper
             .registerKeyBinding(
-                    new KeyBinding(KEY_TOGGLE_GUI, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_O, KeyBinding.UI_CATEGORY)
+                    new KeyBinding(KEY_TOGGLE_GUI, InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_O, KeyBinding.Category.MISC)
             );
 
     public static void register() {
