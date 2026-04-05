@@ -1,5 +1,7 @@
 # Tab Grabber
 
+**I have pretty much lost motivation maintaining this mod after the changes required to support 26.1, so I'm just going to leave it here for now. Do whatever you want with it.**
+
 A Minecraft HUD mod that aggregates information shown on the tab menu into an easily parseable format.
 Using custom regex fully customisable by the user, this mod is able to show the parsed information as a HUD on screen.
 This allows the user to not have to constantly press the tab key on servers if they want to constantly view information
